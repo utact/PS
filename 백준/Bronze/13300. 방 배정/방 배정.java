@@ -20,14 +20,14 @@ public class Main {
         int rms = 0;
 
         for (int i = 0; i < 7; i++) {
-            if (map[0][i] % 2 == 0) {
+            if (map[0][i] % K == 0) {
                 rms -= 1;
             }
-            if (map[1][i] % 2 == 0) {
+            if (map[1][i] % K == 0) {
                 rms -= 1;
             }
-            rms += map[0][i] / 2 + 1;
-            rms += map[1][i] / 2 + 1;
+            rms += map[0][i] / K + 1;
+            rms += map[1][i] / K + 1;
         }
 
         System.out.print(rms);
