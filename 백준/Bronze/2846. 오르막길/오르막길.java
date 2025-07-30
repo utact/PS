@@ -16,17 +16,18 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        getMax(arr, 0);
+        getMax(arr);
         System.out.println(max);
     }
 
-    static void getMax(int[] arr, int b) {
-        for (int i = b; i < N; i++) {
-            if (i + 1 == N || !(arr[i + 1] > arr[i])) {
-                max = Math.max(max, arr[i] - arr[b]);
-                getMax(arr, i + 1);
+    static void getMax(int[] arr) {
+        int b = arr[0];
 
-                return;
+        for (int i = 1; i < N; i++) {
+            if (arr[i] > arr[i - 1]) {
+                max = Math.max(max, arr[i] - b);
+            } else {
+                b = arr[i];
             }
         }
     }
