@@ -71,6 +71,7 @@ public class Main {
 			int cost = cur.cost;
 			
 			if (cost > dist[from]) continue;
+			if (from == tgt) break;
 
 			for (int i = 0; i < graph.get(from).size(); i++) {
 				
