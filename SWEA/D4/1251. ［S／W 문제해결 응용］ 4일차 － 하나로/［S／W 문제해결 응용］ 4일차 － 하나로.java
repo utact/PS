@@ -13,7 +13,6 @@ public class Solution {
 	static int N, edgeCnt;
 	static double E;
 	static int[] xs, ys, arr;
-	static ArrayList<Edge> edges;
 	
 	static class Edge implements Comparable<Edge> {
 		int from, to;
@@ -64,19 +63,19 @@ public class Solution {
 				ys[i] = Integer.parseInt(st.nextToken());
 			}
 			
-			// 엣지 배열 만들어서 정렬하고 최적 간선 준비하기
-			edges = new ArrayList<>();
+			// 우선순위 큐 사용해서 간선 뽑아내기
+			PriorityQueue<Edge> pq = new PriorityQueue<>();
 			for (int i = 0; i < N; i++) {
 				for (int j = i + 1; j < N; j++) {
 					long dist = (long) (Math.pow((xs[i] - xs[j]), 2)) + (long) (Math.pow((ys[i] - ys[j]), 2));
-					edges.add(new Edge(i, j, dist));
+					pq.add(new Edge(i, j, dist));
 				}
 			}			
-			Collections.sort(edges);
 			
 			// 사이클 체크하며 최적 간선 확정하기
-			for (int i = 0; i < edges.size(); i++) {
-				union(edges.get(i).from, edges.get(i).to, edges.get(i).cost);
+			while (!pq.isEmpty()) {
+				Edge cur = pq.poll();
+				union(cur.from, cur.to, cur.cost);
 				
 				if (edgeCnt == N -1) {
 					break;
