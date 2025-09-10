@@ -1,10 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-/*
- * 트리 깊이가 가장 깊으면서 노드 번호가 가장 큰 것
- */
-
 public class Solution {
 	static int N, sttNode, ans;
 	static int[] vst;
@@ -17,8 +13,6 @@ public class Solution {
 		int T = 10;
 
 		for (int tc = 1; tc <= T; tc++) {
-			ans = 0;
-			
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			N = Integer.parseInt(st.nextToken());
 			sttNode = Integer.parseInt(st.nextToken());
@@ -47,17 +41,15 @@ public class Solution {
 	}
 	
 	static void getLastNode() {
-		Queue<Integer> q = new ArrayDeque<>();
-		ArrayList<Integer> hubo = new ArrayList<>();
+		ans = sttNode;
 		
+		Queue<Integer> q = new ArrayDeque<>();
 		q.add(sttNode);
 		vst[sttNode] = 1;
 		
-		hubo.add(sttNode);
-				
 		while (!q.isEmpty()) {
 			int rep = q.size();
-			ArrayList<Integer> list = new ArrayList<>();
+			int tmpAns = -1;
 			
 			while (rep-- > 0) {
 				int cur = q.poll();
@@ -72,16 +64,13 @@ public class Solution {
 					q.add(tmp);
 					vst[tmp] = 1;
 					
-					list.add(tmp);
+					tmpAns = Math.max(tmpAns, tmp);
 				}
 			}
 			
-			if (list.size() > 0) {				
-				hubo = list;
+			if (tmpAns != -1) {
+				ans = tmpAns;
 			}
 		}
-		
-		Collections.sort(hubo);
-		ans = hubo.get(hubo.size() - 1);
 	}
 }
