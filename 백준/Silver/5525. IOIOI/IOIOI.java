@@ -1,43 +1,33 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.io.*;
 
 public class Main {
-    static ArrayList<Character> ioi = new ArrayList<>();
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         int N = Integer.parseInt(br.readLine());
+        int len = Integer.parseInt(br.readLine());
+        char[] cs = br.readLine().toCharArray();
 
-        ioi.add('I');
-        while (N-- > 0) {
-            ioi.add('O');
-            ioi.add('I');
-        }
+        int ans = 0;
+        int cnt = 0;
 
-        int M = Integer.parseInt(br.readLine());
-        String S = br.readLine();
+        for (int i = 0; i < len - 2; i++) {
+        	if (cs[i] == 'I' && cs[i + 1] == 'O' && cs[i + 2] == 'I') {
+        		cnt++;
 
-        int count = 0;
-        int index = 0;
-
-        for (int i = 0; i < M; i++) {
-            if (S.charAt(i) == ioi.get(index)) {
-                index++;
-            } else {
-                if (index > 0) {
-                    i--;
+                if (cnt == N) {
+                	// 정답 증가 후, 패턴 카운트 감소
+                    ans++;
+                    cnt--;
                 }
-                index = 0;
+                
+                i++;
             }
-            if (index == ioi.size()) {
-                count++;
-                i = i - (ioi.size() - 2);
-                index = 0;
+            else {
+                cnt = 0;
             }
         }
 
-        System.out.println(count);
+        System.out.println(ans);
     }
 }
