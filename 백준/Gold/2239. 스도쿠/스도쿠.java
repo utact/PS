@@ -1,64 +1,86 @@
 import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int[][] map = new int[9][9];
-    static boolean[][] rowCheck = new boolean[9][10];
-    static boolean[][] colCheck = new boolean[9][10];
-    static boolean[][] squareCheck = new boolean[9][10];
+	static int N = 9;
+	static int[][] map = new int[N][N];
+	static boolean[][] rowCheck = new boolean[N][10];
+	static boolean[][] colCheck = new boolean[N][10];
+	static boolean[][] squareCheck = new boolean[N][10];
+	static ArrayList<Pos> emptyPos = new ArrayList<>();
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static int COUNT;
 
-        for (int i = 0; i < 9; i++) {
-            String line = br.readLine();
-            for (int j = 0; j < 9; j++) {
-                int v = line.charAt(j) - '0';
-                map[i][j] = v;
-                rowCheck[i][v] = true;
-                colCheck[j][v] = true;
-                squareCheck[(i / 3) * 3 + j / 3][v] = true;
-            }
-        }
+	static class Pos {
+		int r, c;
 
-        solve(0);
-    }
+		public Pos(int r, int c) {
+			super();
+			this.r = r;
+			this.c = c;
+		}
+	}
 
-    static void solve(int depth) {
-        if (depth == 81) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    sb.append(map[i][j]);
-                }
-                sb.append('\n');
-            }
-            System.out.println(sb);
-            System.exit(0);
-        }
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int r = depth / 9;
-        int c = depth % 9;
+		for (int i = 0; i < N; i++) {
+			String line = br.readLine();
+			for (int j = 0; j < N; j++) {
+				int v = line.charAt(j);
 
-        if (map[r][c] != 0) {
-            solve(depth + 1);
-        } else {
-            for (int num = 1; num <= 9; num++) {
-                if (rowCheck[r][num] || colCheck[c][num] || squareCheck[(r / 3) * 3 + c / 3][num]) {
-                    continue;
-                }
+				if (v == '0') {
+					map[i][j] = -1;
+					emptyPos.add(new Pos(i, j));
+				} else {
+					v -= '0';
+					
+					map[i][j] = v;
+					rowCheck[i][v] = true;
+					colCheck[j][v] = true;
+					squareCheck[(i / 3) * 3 + j / 3][v] = true;
+				}
+			}
+		}
 
-                map[r][c] = num;
-                rowCheck[r][num] = true;
-                colCheck[c][num] = true;
-                squareCheck[(r / 3) * 3 + c / 3][num] = true;
+		COUNT = emptyPos.size();
+		solve(0);
+	}
 
-                solve(depth + 1);
+	static void solve(int idx) {
+		if (idx == COUNT) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < N; i++) {
+				for (int j = 0; j < N; j++) {
+					sb.append(map[i][j]);
+				}
+				sb.append('\n');
+			}
+			System.out.println(sb);
+			System.exit(0);
+		}
 
-                map[r][c] = 0;
-                rowCheck[r][num] = false;
-                colCheck[c][num] = false;
-                squareCheck[(r / 3) * 3 + c / 3][num] = false;
-            }
-        }
-    }
+		Pos p = emptyPos.get(idx);
+		int r = p.r;
+		int c = p.c;
+		int s = (r / 3) * 3 + (c / 3);
+
+		for (int tmp = 1; tmp <= 9; tmp++) {
+			if (rowCheck[r][tmp] || colCheck[c][tmp] || squareCheck[s][tmp]) {
+				continue;
+			}
+
+			map[r][c] = tmp;
+			rowCheck[r][tmp] = true;
+			colCheck[c][tmp] = true;
+			squareCheck[s][tmp] = true;
+
+			solve(idx + 1);
+
+			map[r][c] = -1;
+			rowCheck[r][tmp] = false;
+			colCheck[c][tmp] = false;
+			squareCheck[s][tmp] = false;
+		}
+	}
 }
