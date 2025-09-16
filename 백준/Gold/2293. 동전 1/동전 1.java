@@ -1,5 +1,5 @@
 /*
- * 특정 금액을 충족하는 동전의 최소 개수
+ * 특정 금액을 충족하는 경우의 수
  * DP -> 바텀업
  */
 
@@ -30,4 +30,5 @@ public class Main {
 		
 		System.out.println(dp[k]);
 	}
+
 }
