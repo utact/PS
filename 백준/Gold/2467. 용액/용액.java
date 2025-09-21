@@ -25,7 +25,6 @@ public class Main {
     }
 
     static void solve() {
-        int base = Integer.MAX_VALUE;
         int left = 0;
         int right = N - 1;
 
@@ -50,4 +49,5 @@ public class Main {
         }
 
     }
+
 }
