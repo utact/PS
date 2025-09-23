@@ -35,8 +35,6 @@ public class Main {
     	for (int rt = 0; rt < N; rt++) {
 			sum += nums[rt];
 			
-			if (sum < S) continue;
-			
 			while (sum >= S) {
 				len = Math.min(len, rt - lt + 1);
 				sum -= nums[lt++];
